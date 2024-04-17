@@ -59,25 +59,25 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   Open another new terminal, edit `ROCKET_PORT` in `.env` to `8003`, then execute `cargo run`.
 
 ## Mandatory Checklists (Subscriber)
--   [ ] Clone https://gitlab.com/ichlaffterlalu/bambangshop-receiver to a new repository.
+-   [x] Clone https://gitlab.com/ichlaffterlalu/bambangshop-receiver to a new repository.
 -   **STAGE 1: Implement models and repositories**
-    -   [ ] Commit: `Create Notification model struct.`
-    -   [ ] Commit: `Create SubscriberRequest model struct.`
-    -   [ ] Commit: `Create Notification database and Notification repository struct skeleton.`
-    -   [ ] Commit: `Implement add function in Notification repository.`
-    -   [ ] Commit: `Implement list_all_as_string function in Notification repository.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
+    -   [x] Commit: `Create Notification model struct.`
+    -   [x] Commit: `Create SubscriberRequest model struct.`
+    -   [x] Commit: `Create Notification database and Notification repository struct skeleton.`
+    -   [x] Commit: `Implement add function in Notification repository.`
+    -   [x] Commit: `Implement list_all_as_string function in Notification repository.`
+    -   [x] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
 -   **STAGE 3: Implement services and controllers**
-    -   [ ] Commit: `Create Notification service struct skeleton.`
-    -   [ ] Commit: `Implement subscribe function in Notification service.`
-    -   [ ] Commit: `Implement subscribe function in Notification controller.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification service.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification controller.`
-    -   [ ] Commit: `Implement receive_notification function in Notification service.`
-    -   [ ] Commit: `Implement receive function in Notification controller.`
-    -   [ ] Commit: `Implement list_messages function in Notification service.`
-    -   [ ] Commit: `Implement list function in Notification controller.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
+    -   [x] Commit: `Create Notification service struct skeleton.`
+    -   [x] Commit: `Implement subscribe function in Notification service.`
+    -   [x] Commit: `Implement subscribe function in Notification controller.`
+    -   [x] Commit: `Implement unsubscribe function in Notification service.`
+    -   [x] Commit: `Implement unsubscribe function in Notification controller.`
+    -   [x] Commit: `Implement receive_notification function in Notification service.`
+    -   [x] Commit: `Implement receive function in Notification controller.`
+    -   [x] Commit: `Implement list_messages function in Notification service.`
+    -   [x] Commit: `Implement list function in Notification controller.`
+    -   [x] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
 
 ## Your Reflections
 This is the place for you to write reflections:
@@ -85,5 +85,25 @@ This is the place for you to write reflections:
 ### Mandatory (Subscriber) Reflections
 
 #### Reflection Subscriber-1
+##### Use of RwLock vs. Mutex
+- Purpose of RwLock:
+A Read-Write Lock (RwLock) allows multiple threads to read data simultaneously but only one thread can write to the data at a time. This is beneficial when read operations are frequent and write operations are less frequent but require exclusivity.
+In the context of notifications, assuming reads (retrieving notifications) are more common than writes (adding a notification), RwLock allows for higher concurrency and performance by not blocking readers unless a write is happening.
+- Why Not Mutex:
+A Mutex (Mutual Exclusion) lock allows only one thread to access a resource at any time, whether reading or writing. This means even read operations would block other reads, which could lead to lower performance especially when the resource is frequently accessed.
+Using a Mutex would result in unnecessary serialization of read operations, which could become a bottleneck in a system where multiple subscribers might check notifications concurrently.
+Conclusion: The choice of RwLock over Mutex in this scenario is likely driven by the need to maximize read access performance while maintaining safe write operations.
+##### Static Variable Mutability in Rust vs. Java:
+- Static Variables in Java:
+In Java, static variables can be mutated directly if access controls allow it. This is often used for shared resources or configuration settings that need to be globally accessible.
+- Static Variables in Rust:
+Rust's handling of static variables is strict due to its focus on safety and concurrency. Static variables in Rust are immutable by default because mutable static variables can lead to data races and undefined behaviors in a concurrent context.
+The lazy_static macro allows Rust to have static-like variables that are initialized in a thread-safe manner on first access. This pattern provides the safety guarantees of Rust while still allowing for lazily initialized global state.
 
 #### Reflection Subscriber-2
+##### Exploration
+No i havent explored the library
+##### Efficacy of the Observer Pattern in Scaling Subscribers
+just add more subscriber without editing the publisher
+##### Testing and Documentation
+i havent tried to make any test
